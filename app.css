@@ -1,0 +1,183 @@
+/*
+@title        Plantdex - styles
+@author       La Gia Huy
+@since        2026-11-16
+@updated      2026-11-16
+@about        Styles for app.js. Colour tokens on :root, dark mode via prefers-color-scheme.
+              --c is the current set/figure colour, set inline per section.
+*/
+:root {
+  --bg: #f4f1e8;
+  --card: #fffdf7;
+  --ink: #24301f;
+  --muted: #6c7565;
+  --line: #e2ddcd;
+  --leaf: #3f7a35;
+  --leaf-soft: #e3eedb;
+  --accent: #d9534f;
+  --shadow: 0 1px 2px rgba(36, 48, 31, .08), 0 4px 14px rgba(36, 48, 31, .06);
+  --radius: 18px;
+  --lego-bg: #4a7650; /* LEGO's Botanicals product-shot green, behind transparent images */
+  --font: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161b15;
+    --card: #20271e;
+    --ink: #eef2e8;
+    --muted: #a3ad9b;
+    --line: #333d30;
+    --leaf: #8fcf7c;
+    --leaf-soft: #2a3826;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.5 var(--font);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+a { color: var(--leaf); }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; cursor: pointer; }
+h1, h2 { line-height: 1.2; margin: 0; }
+h2 { font-size: 18px; margin: 28px 0 12px; }
+code { font-size: .9em; background: var(--leaf-soft); padding: 1px 5px; border-radius: 6px; }
+.muted { color: var(--muted); }
+
+/* top bar */
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 19px; text-decoration: none; color: var(--ink); }
+.logo { width: 28px; height: 28px; color: #d9a441; }
+.logo svg { width: 100%; height: 100%; }
+.back { font-size: 30px; line-height: 1; text-decoration: none; color: var(--ink); padding: 0 6px 4px 0; }
+.count { margin-left: auto; font-weight: 700; font-size: 14px; background: var(--leaf-soft); color: var(--leaf); padding: 3px 10px; border-radius: 99px; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 16px; }
+.intro h1 { font-size: 26px; }
+.intro p { margin: 4px 0 8px; color: var(--muted); }
+
+/* home: one row per set */
+.set-row {
+  margin-top: 18px; background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  border-top: 6px solid var(--c);
+}
+.set-head {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 2px 10px;
+  padding: 14px 16px 4px; text-decoration: none; color: var(--ink);
+}
+.set-head h2 { margin: 0; font-size: 20px; }
+.set-head .sub { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
+.set-head .go { grid-row: 1; grid-column: 3; font-size: 14px; color: var(--leaf); font-weight: 700; white-space: nowrap; }
+.set-head .badge { grid-column: 2; justify-self: start; }
+.sku { font-weight: 800; font-size: 13px; letter-spacing: .04em; color: var(--muted); }
+.badge { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 99px; }
+.badge.soon { background: #ffe3a3; color: #6b4a00; }
+
+.fig-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; padding: 12px 16px 16px; }
+.wrap > .fig-grid { padding: 0; }
+.fig-card {
+  display: block; text-decoration: none; color: var(--ink);
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+  transition: transform .15s ease;
+}
+.fig-card:hover { transform: translateY(-2px); }
+.fig-art {
+  position: relative; aspect-ratio: 1; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--c) 28%, var(--card));
+}
+.fig-art img { width: 100%; height: 100%; object-fit: contain; }
+.fig-art .pot { width: 78%; height: 78%; }
+.fig-art .crop { position: absolute; inset: 0; background-repeat: no-repeat; background-color: var(--lego-bg); }
+.tick {
+  position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 14px; font-weight: 900;
+  background: var(--leaf); color: #fff;
+}
+.tick.heart { background: var(--accent); }
+.fig-meta { padding: 8px 12px 12px; font-size: 14px; }
+.fig-meta b { font-size: 16px; }
+.fig-meta span:last-child { display: block; color: var(--muted); }
+.unofficial { font-size: 11px; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 0 6px; vertical-align: middle; white-space: nowrap; }
+.coming { margin-top: 18px; padding: 16px; border: 2px dashed var(--line); border-radius: var(--radius); color: var(--muted); text-align: center; }
+
+/* detail pages */
+.title { margin: 4px 0 14px; }
+.title h1 { font-size: 30px; }
+.gallery { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.hero, .hero-art {
+  display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; max-height: 62vh; padding: 0; border: 0;
+  background: color-mix(in srgb, var(--c) 22%, var(--card));
+}
+.hero { position: relative; overflow: hidden; background: var(--lego-bg); }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.hero-art .pot { width: 55%; height: 80%; }
+.thumbs { display: flex; gap: 8px; padding: 10px; overflow-x: auto; scrollbar-width: thin; }
+.thumb { flex: 0 0 64px; height: 64px; padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--lego-bg); }
+.thumb img { width: 100%; height: 100%; object-fit: contain; }
+.gallery .hint { margin: 0; padding: 10px 14px; font-size: 14px; color: var(--muted); }
+.about { margin: 16px 0 0; }
+
+.marks { display: flex; gap: 10px; margin: 14px 0 0; }
+.mark {
+  flex: 1; padding: 11px; border-radius: 12px; font-weight: 800;
+  border: 2px solid var(--line); background: var(--card);
+}
+.mark.on { background: var(--leaf); border-color: var(--leaf); color: #fff; }
+.mark.wish.on { background: var(--accent); border-color: var(--accent); }
+
+.story {
+  margin-top: 18px; padding: 4px 18px 8px; background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); border-left: 6px solid var(--c);
+}
+.story h2 { margin-top: 14px; }
+.story p { margin: 0 0 12px; }
+.story .greeting { font-weight: 800; font-size: 18px; color: color-mix(in srgb, var(--c) 55%, var(--ink)); }
+.story .src { font-size: 12px; color: var(--muted); }
+
+.facts {
+  display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px;
+  margin: 18px 0 0; padding: 14px 18px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.facts dt { font-weight: 700; color: var(--muted); font-size: 14px; padding-top: 1px; }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 6px; vertical-align: -2px; border: 1px solid rgba(0, 0, 0, .15); }
+
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.links a { padding: 8px 14px; border-radius: 99px; background: var(--leaf-soft); text-decoration: none; font-weight: 700; font-size: 14px; }
+.pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.pager a { font-weight: 700; text-decoration: none; }
+.foot { margin: 32px 0 8px; font-size: 12px; color: var(--muted); text-align: center; }
+
+/* lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 20; display: grid; place-items: center;
+  background: rgba(10, 14, 9, .92); padding: 16px;
+}
+.lightbox figure { margin: 0; max-width: 100%; max-height: 100%; display: grid; gap: 8px; justify-items: center; }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 90px); object-fit: contain; background: var(--lego-bg); border-radius: 12px; }
+.lightbox figcaption { color: #ddd; font-size: 14px; }
+.lb-close, .lb-nav {
+  position: absolute; border: 0; background: rgba(255, 255, 255, .14); color: #fff;
+  width: 44px; height: 44px; border-radius: 50%; font-size: 28px; line-height: 1;
+}
+.lb-close { top: calc(12px + env(safe-area-inset-top)); right: 12px; }
+.lb-nav { top: 50%; transform: translateY(-50%); }
+.lb-nav.prev { left: 10px; }
+.lb-nav.next { right: 10px; }
+
+@media (max-width: 420px) {
+  .fig-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .title h1 { font-size: 26px; }
+}

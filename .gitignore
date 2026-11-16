@@ -1,0 +1,20 @@
+# secrets
+*.session
+*cookies*.txt
+.env
+
+# saved LEGO pages and instruction PDFs used as source material
+temp/
+
+# media (images are hotlinked from LEGO, never stored here)
+*.pdf
+*.jpg
+*.jpeg
+*.webp
+!icons/*
+
+# OS / tooling
+__pycache__/
+Thumbs.db
+desktop.ini
+.DS_Store
