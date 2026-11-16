@@ -2,15 +2,17 @@
 
 A small dex of the **LEGO Botanicals planter buddies**, the pot figures with faces that come two to a set.
 
+**Open the app: https://huyla1903.github.io/Plantdex/**
+
 ## 💡 Motivation
 
-Since 2025, LEGO Botanicals has a line of small sets with two potted plant figures each, and every pair gets a plant, a pose and a short story in its instruction booklet. That information is split across LEGO.com, the PDF instructions and reviews. Plantdex puts every set and figure on one page, with LEGO's product photos, the story from the booklet, and owned / wishlist marks. It is a sibling of [Scaledex](../Scaledex/), as a plain web app only.
+Since 2025, LEGO Botanicals has a line of small sets with two potted plant figures each, and every pair gets a plant, a pose and a short story in its instruction booklet. That information is split across LEGO.com, the PDF instructions and reviews. Plantdex puts every set and figure on one page, with LEGO's product photos, the story from the booklet, and owned / wishlist marks. It is a sibling of [Scaledex](https://github.com/huyla1903/Scaledex), as a plain web app only.
 
 ## 🚀 Quick Start
 
-Open `index.html` in a browser. That's it: no build step and no server needed.
+Use the [hosted app](https://huyla1903.github.io/Plantdex/), or open `index.html` in a browser: no build step and no server needed.
 
-To use it on a phone, host the folder on any static host (GitHub Pages works) and add it to the home screen. It then works offline, except the LEGO images.
+To use it on a phone, open the hosted app and add it to the home screen. It then works offline, except the LEGO images.
 
 ## 📖 Usage
 
@@ -49,8 +51,6 @@ Unofficial fan index. LEGO, the LEGO logo and set images © The LEGO Group.
 ## 🤝 Contributing
 
 ### Clone the repo
-
-Plantdex is not on GitHub yet. When it is:
 
 ```bash
 git clone https://github.com/huyla1903/Plantdex.git
