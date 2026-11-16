@@ -11,7 +11,7 @@ Dex of the LEGO Botanicals planter-buddy sets (two figures per set). Web app onl
 ## Data notes
 
 - Images are hotlinked from LEGO's CDN (user's choice): never download or commit them. Figures without a tagged image (`gallery[].fig`) show a drawn pot (`potSvg`) in the figure's `color`.
-- lego.com product pages are blocked on the work network (Chrome policy, 403 for scripts); the image CDN (`lego.com/cdn/cs/set/assets/`) does load. The user saves product pages + instruction PDFs into `temp/` (gitignored); take gallery URLs from the saved HTML (product gallery order: `_Prod`, `boxprod`/`Box1`, `WEB_PRI`, `WEB_SEC0n`, `Lifestyle_*`, `Box5`) and stories from the PDFs. Don't fetch lego.com through archive/proxy sites.
+- lego.com product pages load again (2026-11-16): `curl` with a browser User-Agent works; the first request can return 403, so retry once. If it's blocked again (work network), the user saves product pages + instruction PDFs into `temp/` (gitignored). The page's JSON-LD has pieces/price/age, `"description"` is the tagline and `featuresText` holds the figure sizes. Take gallery URLs from the HTML (product gallery order: `_Prod`, `boxprod`/`Box1`, `WEB_PRI`, `WEB_SEC0n`, `Lifestyle_*`, `Box5`) and stories from the PDFs. Don't fetch lego.com through archive/proxy sites.
 - Stories: 10349 has a separate text "Info Booklet"; 11506/10371 print them as artwork, not text: booklet 1, pages 4-5 hold both figures' stories (render the page with PyMuPDF to read it). Keep LEGO's wording (incl. ®, curly quotes).
 - `sized()` in app.js appends LEGO CDN resize params (`format=webply&fit=bounds&width=`), so store URLs without a query.
 - Figure tiles zoom into a group shot via `card: { src, zoom, x, y }`; check them in a browser after changing an image.

@@ -24,12 +24,14 @@ To use it on a phone, open the hosted app and add it to the home screen. It then
 | 11506 | Rocking Plants | 1 May 2026 | Ellie (echeveria), Lumi (ice plant) |
 | 10371 | Cozy Plants (UK: Cosy Plants) | 1 Nov 2026 | Momi (chamomile), Remi (peppermint) |
 
-- **Home:** every set with its two figures and how many you own.
-- **Set page:** LEGO's photo gallery (tap to enlarge, swipe or arrow keys to browse), pieces, launch prices, links to LEGO.com, the building instructions and the review.
-- **Figure page:** the booklet story, plant (common and botanical name), pot colour, pose, accessory, partner figure, and Owned / Wishlist buttons.
-- Links: `#/set/11506`, `#/figure/ellie`.
+- **Home:** collection stats and progress, filter chips (All / Owned / Missing / Wishlist), and every set with its two figures and a progress bar.
+- **Set page:** LEGO's tagline and photo gallery (tap a thumbnail to show it, tap the big picture to enlarge, swipe or arrow keys to browse), pieces, price, ages, release, links to LEGO.com, the building instructions and the review.
+- **Figure page:** tabs for both figures of the set, the booklet story, plant (common and botanical name), pot colour, size, pose, accessory, a size chart of every figure, and Owned / Wishlist buttons.
+- **Settings** (☰): light / dark / auto theme, grey out figures you don't own, export / import / clear your collection.
+- Keys: Esc or Backspace goes back, ← → move to the previous / next set or figure.
+- Links: `#/set/11506`, `#/figure/ellie`, `#/settings`.
 
-Owned and wishlist marks are saved in the browser (localStorage), per device.
+Owned and wishlist marks are saved in the browser (localStorage), per device. Use Settings → Export / Import to move them to another device.
 
 ### Adding or updating sets
 
@@ -43,7 +45,7 @@ Everything lives in [data.js](data.js); the field list is in its header.
 
 ### Data sources
 
-- Set facts, prices, names and plants: LEGO.com product pages and [Jay's Brick Blog](https://jaysbrickblog.com/) reviews of [10349](https://jaysbrickblog.com/reviews/review-lego-10349-happy-plants/), [11506](https://jaysbrickblog.com/reviews/review-lego-11506-rocking-plants/) and [10371](https://jaysbrickblog.com/reviews/review-lego-10371-cosy-plants/).
+- Set facts, prices, taglines, figure sizes, names and plants: LEGO.com product pages (last checked 16 Nov 2026) and [Jay's Brick Blog](https://jaysbrickblog.com/) reviews of [10349](https://jaysbrickblog.com/reviews/review-lego-10349-happy-plants/), [11506](https://jaysbrickblog.com/reviews/review-lego-11506-rocking-plants/) and [10371](https://jaysbrickblog.com/reviews/review-lego-10371-cosy-plants/).
 - Stories: the sets' building-instruction booklets.
 
 Unofficial fan index. LEGO, the LEGO logo and set images © The LEGO Group.

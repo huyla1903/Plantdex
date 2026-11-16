@@ -1,6 +1,6 @@
 /*
 @title        Plantdex - data
-@version      0.2.0
+@version      0.3.0
 @author       La Gia Huy
 @since        2026-11-16
 @updated      2026-11-16
@@ -11,8 +11,9 @@
 
               Set fields
                 sku, name, altName      LEGO item number, US name, other-region name
+                tagline                 LEGO's one-line pitch from the product page
                 released                ISO date (YYYY-MM-DD); a future date shows "Upcoming"
-                pieces, prices          piece count, retail prices at launch
+                pieces, ages, prices    piece count, LEGO age mark, retail prices at launch
                 color                   accent colour of the set card
                 lego, instructions      LEGO product page, building-instructions page
                 review                  Jay's Brick Blog review
@@ -33,6 +34,8 @@
                                         of a group photo (zoom 1 = whole image; x, y = focus
                                         point in %). Without it the tile uses the first image
                                         tagged with fig, else a drawn pot.
+                size                    { h, w } in cm, from LEGO's product page; null if LEGO
+                                        doesn't give it
                 pose, feature, extras   short facts shown on the figure page
                 greeting, story         the text from the figure's instruction booklet: the
                                         headline and the body. Blank line in story = new
@@ -42,14 +45,18 @@ var LEGO_CDN = "https://www.lego.com/cdn/cs/set/assets/";
 
 window.PLANTDEX = {
   title: "Plantdex",
+  // Date the data was last checked against LEGO.com (shown in Settings).
+  checked: "2026-11-16",
   // Shown as a card after the last set. Set to "" to hide it.
   comingNote: "Two more sets are due in 2027.",
   sets: [
     {
       sku: "10349",
       name: "Happy Plants",
+      tagline: "Let joy bloom with 2 cheerful LEGO® plants",
       released: "2025-06-01",
       pieces: 217,
+      ages: "9+",
       prices: ["US$22.99", "€19.99", "£17.99", "AU$29.99", "CA$24.99"],
       color: "#f2c94c",
       lego: "https://www.lego.com/en-us/product/happy-plants-10349",
@@ -77,6 +84,7 @@ window.PLANTDEX = {
           pot: "Yellow",
           color: "#f2c94c",
           card: { src: LEGO_CDN + "blt6921020c0cfcc903/10349_Prod_en-gb.png", zoom: 1.6, x: 100, y: 60 },
+          size: { h: 12, w: 8 },
           pose: "Standing on round 2×2 legs",
           feature: "Posable arms; holds hands with Blue",
           extras: "",
@@ -92,6 +100,7 @@ window.PLANTDEX = {
           pot: "Light blue",
           color: "#8ec5e8",
           card: { src: LEGO_CDN + "blt6921020c0cfcc903/10349_Prod_en-gb.png", zoom: 1.6, x: 0, y: 75 },
+          size: { h: 7, w: 9 },
           pose: "Sitting, feet built into the face plate",
           feature: "Posable arms; holds hands with Yellow",
           extras: "",
@@ -103,8 +112,10 @@ window.PLANTDEX = {
     {
       sku: "11506",
       name: "Rocking Plants",
+      tagline: "Let joy bloom with 2 rocking LEGO® plants in pastel pots",
       released: "2026-05-01",
       pieces: 253,
+      ages: "9+",
       prices: ["US$22.99", "€19.99", "£17.99", "AU$29.99", "CA$29.99"],
       color: "#f4a6b8",
       lego: "https://www.lego.com/en-us/product/rocking-plants-11506",
@@ -134,6 +145,7 @@ window.PLANTDEX = {
           pot: "Pink",
           color: "#f4a6b8",
           card: { src: LEGO_CDN + "blt60b912a892640361/blte47c9a08c6295596-11506_WEB_SEC04_NOBG.png", zoom: 2.4, x: 46, y: 72 },
+          size: { h: 14, w: 8 },
           pose: "Legs out to the sides, doing the splits",
           feature: "Sways side to side; tall flower stem",
           extras: "",
@@ -148,6 +160,7 @@ window.PLANTDEX = {
           pot: "Lime green",
           color: "#c9dc8a",
           card: { src: LEGO_CDN + "bltf94cb9a8908c9cc9/blte47c9a08c6295596-11506_Prod.png", zoom: 1.6, x: 0, y: 85 },
+          size: { h: 7, w: 9 },
           pose: "Sitting",
           feature: "Rocks back and forth; magenta flowers",
           extras: "",
@@ -160,8 +173,10 @@ window.PLANTDEX = {
       sku: "10371",
       name: "Cozy Plants",
       altName: "Cosy Plants",
+      tagline: "Add to your cozy decor collection with cute LEGO® plants",
       released: "2026-11-01",
       pieces: 248,
+      ages: "9+",
       prices: ["US$22.99", "€19.99", "£17.99", "AU$29.99", "CA$29.99"],
       color: "#b9a6d8",
       lego: "https://www.lego.com/en-us/product/cozy-plants-10371",
@@ -189,9 +204,10 @@ window.PLANTDEX = {
           pot: "Lavender",
           color: "#b9a6d8",
           card: { src: LEGO_CDN + "blt253c1cfce17d3a48/10371_Prod.png", zoom: 1.6, x: 100, y: 85 },
+          size: null,
           pose: "Sitting, arms and legs mounted on the front",
           feature: "First figure with front-mounted arms",
-          extras: "Hot drink",
+          extras: "Cup of tea",
           greeting: "Hi, I’m Momi. I’m a Chamomile plant!",
           story: "On your nose, a fresh scent – on your mind, a calming effect. This cheerful Chamomile loves cozy days with friends."
         },
@@ -203,6 +219,7 @@ window.PLANTDEX = {
           pot: "Caramel brown",
           color: "#c98a4b",
           card: { src: LEGO_CDN + "blt253c1cfce17d3a48/10371_Prod.png", zoom: 1.6, x: 0, y: 60 },
+          size: { h: 11, w: 8 },
           pose: "Lying down, legs out from the back",
           feature: "Arms fold onto the book",
           extras: "Brick-built book",
