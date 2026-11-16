@@ -335,6 +335,7 @@
         '<a class="set-head" href="#/set/' + s.sku + '"><span class="sku">' + s.sku + "</span>" +
         "<h2>" + esc(s.name) + "</h2>" + setBadge(s) +
         '<span class="sub">' + monthYear(s.released) + " · " + s.pieces + " pieces · " + esc(s.prices[0]) + "</span>" +
+        (s.tagline ? '<span class="tag">' + esc(s.tagline) + "</span>" : "") +
         '<span class="set-prog">' + bar(o, s.figures.length) + "<b>" + o + " / " + s.figures.length + "</b></span>" +
         '<span class="go" aria-hidden="true">›</span></a>' +
         '<div class="fig-grid">' + figs.map(figCard).join("") + "</div></section>";
