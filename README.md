@@ -28,7 +28,7 @@ To use it on a phone, open the hosted app and add it to the home screen. It then
 - **Set page:** LEGO's tagline and photo gallery (tap a thumbnail to show it, tap the big picture to enlarge, swipe or arrow keys to browse), pieces, price, ages, release, links to LEGO.com, the building instructions and the review.
 - **Figure page:** tabs for both figures of the set, the booklet story, plant (common and botanical name), pot colour, size, pose, accessory, a size chart of every figure, and Owned / Wishlist buttons.
 - **Settings** (☰): light / dark / auto theme, grey out figures you don't own, export / import / clear your collection.
-- Keys: Esc or Backspace goes back, ← → move to the previous / next set or figure.
+- Keys: Esc or Backspace goes back, ← → move to the previous / next set or figure, H home, M settings, T theme, 1–4 home filters, O / W owned / wishlist on a figure page. Settings lists them all.
 - Links: `#/set/11506`, `#/figure/ellie`, `#/settings`.
 
 Owned and wishlist marks are saved in the browser (localStorage), per device. Use Settings → Export / Import to move them to another device.
@@ -70,11 +70,13 @@ app.js, app.css        UI (no framework)
 sw.js                  offline cache for the app shell
 manifest.webmanifest   home-screen install
 icons/                 app icons
+donate.jpg             donation QR code (Settings)
+tools/check.mjs        pre-deploy check
 ```
 
 ### Test your changes
 
-There are no automated tests. Before opening a pull request, open `index.html` and check that the home page, every set page and every figure page render, that the gallery opens and browses, and that Owned / Wishlist survive a reload.
+Run `node tools/check.mjs`. It checks the JS syntax, that `data.js` loads, and that set and figure ids are unique and linked. GitHub runs it before every deploy and won't publish if it fails. There are no other automated tests: open `index.html` and check that the home page, every set page and every figure page render, that the gallery opens and browses, and that Owned / Wishlist survive a reload.
 
 ### Submit a pull request
 

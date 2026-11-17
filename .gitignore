@@ -12,6 +12,7 @@ temp/
 *.jpeg
 *.webp
 !icons/*
+!donate.jpg
 
 # OS / tooling
 __pycache__/

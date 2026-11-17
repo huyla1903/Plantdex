@@ -2,7 +2,7 @@
 @title        Plantdex - styles
 @author       La Gia Huy
 @since        2026-11-16
-@updated      2026-11-16
+@updated      2026-11-17
 @about        Styles for app.js. Colour tokens on :root; dark mode follows the device
               (prefers-color-scheme) unless app.js sets html[data-theme="light"|"dark"].
               --c is the current set/figure colour, set inline per section.
@@ -282,6 +282,18 @@ html.dim .fig-tab:not(.owned) .tab-art > * { filter: grayscale(1) opacity(.5); }
 }
 .menu button span { color: var(--muted); font-size: 20px; line-height: 1; }
 .menu button.danger { color: var(--wish); }
+/* settings: keyboard shortcut list, not on touch-only devices */
+.keylist { display: grid; gap: 6px; font-size: 13px; font-weight: 700; }
+.keylist > div { display: flex; align-items: center; gap: 10px; }
+.keylist kbd { flex: none; min-width: 74px; text-align: center; font: 800 12px/1 ui-monospace, monospace; padding: 5px 6px;
+  border-radius: 7px; background: var(--leaf-soft); border: 1px solid var(--line); color: var(--ink-strong); }
+@media (hover: none) and (pointer: coarse) { .keys { display: none; } }
+/* settings: donation QR on a white tile so it scans in dark mode too; Ko-fi button in Ko-fi's coral */
+.donate { text-align: center; }
+.donate img { width: min(240px, 100%); margin: 2px auto 8px; padding: 10px; background: #fff; border-radius: 14px; }
+.donate .note { margin: 4px 0 0; }
+.kofi { display: inline-block; margin-top: 14px; padding: 9px 18px; border-radius: 999px; background: #ff5e5b; color: #fff; font-weight: 800; font-size: 14px; text-decoration: none; }
+.kofi:hover { filter: brightness(1.06); }
 .menu input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--leaf); flex: none; }
 
 /* ---------- lightbox ---------- */

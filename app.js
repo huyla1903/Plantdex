@@ -1,6 +1,6 @@
 /*
 @title        Plantdex - app
-@version      0.3.1
+@version      0.4.0
 @author       La Gia Huy
 @since        2026-11-16
 @updated      2026-11-17
@@ -17,8 +17,11 @@
               Older files with owned[id] = true still load.
               Images are hotlinked from LEGO's CDN; a figure without an image, or whose
               image fails to load, gets a drawn pot in its pot colour.
-              Keys: Esc / Backspace = back, arrow keys = previous / next page or image.
-@changelog    0.3.1  Sets announced without figures (figures: []) show "not revealed yet";
+              Keys: Esc / Backspace = back, arrow keys = previous / next page or image,
+              H home, M settings, T theme, 1-4 home filters, O / W owned / wishlist.
+@changelog    0.4.0  From Scaledex: single-key shortcuts (listed in Settings, shown in button
+                     tooltips) and a "Buy me a coffee" section (VietQR code + Ko-fi).
+              0.3.1  Sets announced without figures (figures: []) show "not revealed yet";
                      LEGO.com and instructions links are optional.
               0.3.0  Scaledex-style UI: theme switch, stats card, progress bars, filter chips,
                      figure tabs, big facts, size chart, settings page, export/import,
@@ -60,6 +63,13 @@
     wish: ico('<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>')
   };
   var FILTERS = [["all", "All"], ["owned", "Owned"], ["missing", "Missing"], ["wish", "Wishlist"]];
+  // listed in Settings (hidden on touch devices); handled in the keydown listener
+  var KEYS = [["H", "Home (all sets)"], ["M", "Settings"], ["T", "Light / dark theme"], ["1–4", "Home filters"],
+    ["O · W", "Mark owned / wishlist (figure page)"], ["← →", "Previous / next page or picture"],
+    ["Backspace", "Back"], ["Esc", "Back / close picture"]];
+  // Settings: "Buy me a coffee" (same QR and Ko-fi page as Scaledex); "" hides each part
+  var DONATE_QR = "donate.jpg";
+  var KOFI_URL = "https://ko-fi.com/huyla";
 
   // ---------- helpers ----------
   function esc(s) {
@@ -179,8 +189,8 @@
       '<a class="brand" href="#/"><span class="logo">' + leafLogo() + "</span><span>" + esc(D.title) + "</span></a>" +
       '<span class="bar-end"><a class="count" href="#/" title="Figures owned">' + ownedIn(FIGS) + " / " + FIGS.length + "</a>" +
       '<button class="icon-btn" data-act="theme" role="switch" aria-checked="' + dk + '" aria-label="Dark theme" title="' +
-      (dk ? "Switch to light theme" : "Switch to dark theme") + '">' + (dk ? ICON.moon : ICON.sun) + "</button>" +
-      '<a class="icon-btn" href="#/settings" aria-label="Settings" title="Settings">' + ICON.menu + "</a></span></header>";
+      (dk ? "Switch to light theme" : "Switch to dark theme") + ' (T)">' + (dk ? ICON.moon : ICON.sun) + "</button>" +
+      '<a class="icon-btn" href="#/settings" aria-label="Settings" title="Settings (M)">' + ICON.menu + "</a></span></header>";
   }
   function leafLogo() {
     return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="14" width="20" height="15" rx="4" fill="currentColor" opacity=".9"/>' +
@@ -223,8 +233,8 @@
   function neighbours(list, x, href, label) {
     var i = list.indexOf(x), p = list[i - 1], n = list[i + 1];
     return '<nav class="pager">' +
-      (p ? '<a href="' + href(p) + '" data-pager="prev"><small>Previous</small>‹ ' + esc(label(p)) + "</a>" : "<span></span>") +
-      (n ? '<a href="' + href(n) + '" data-pager="next"><small>Next</small>' + esc(label(n)) + " ›</a>" : "<span></span>") + "</nav>";
+      (p ? '<a href="' + href(p) + '" data-pager="prev" title="Previous (←)"><small>Previous</small>‹ ' + esc(label(p)) + "</a>" : "<span></span>") +
+      (n ? '<a href="' + href(n) + '" data-pager="next" title="Next (→)"><small>Next</small>' + esc(label(n)) + " ›</a>" : "<span></span>") + "</nav>";
   }
   function footer() {
     return '<footer class="foot">Unofficial fan index. LEGO, the LEGO logo and set images © The LEGO Group. ' +
@@ -326,7 +336,7 @@
         return x[0] === "owned" ? isOwned(f) : x[0] === "missing" ? !isOwned(f) : isWish(f);
       }).length;
       return '<button class="chip' + (prefs.filter === x[0] ? " on" : "") + '" data-act="filter" data-id="' + x[0] + '" aria-pressed="' +
-        (prefs.filter === x[0]) + '">' + ICON[x[0]] + "<span>" + x[1] + "</span><em>" + n + "</em></button>";
+        (prefs.filter === x[0]) + '" title="' + x[1] + " (" + (FILTERS.indexOf(x) + 1) + ')">' + ICON[x[0]] + "<span>" + x[1] + "</span><em>" + n + "</em></button>";
     }).join("") + "</div>";
 
     var shown = 0;
@@ -439,8 +449,8 @@
         [f.size ? f.size.h + " cm" : "—", "Height"], [esc(f.pot), "Pot"], [monthYear(s.released), "Released"]
       ]) +
       '<div class="toggles">' +
-      '<button class="toggle own' + (own ? " on" : "") + '" data-act="own" data-id="' + f.id + '" aria-pressed="' + own + '">' + (own ? "✓ Owned" : "+ Owned") + "</button>" +
-      '<button class="toggle wish' + (wish ? " on" : "") + '" data-act="wish" data-id="' + f.id + '" aria-pressed="' + wish + '">' + (wish ? "♥ Wishlist" : "♡ Wishlist") + "</button>" +
+      '<button class="toggle own' + (own ? " on" : "") + '" data-act="own" data-id="' + f.id + '" aria-pressed="' + own + '" title="Owned (O)">' + (own ? "✓ Owned" : "+ Owned") + "</button>" +
+      '<button class="toggle wish' + (wish ? " on" : "") + '" data-act="wish" data-id="' + f.id + '" aria-pressed="' + wish + '" title="Wishlist (W)">' + (wish ? "♥ Wishlist" : "♡ Wishlist") + "</button>" +
       "</div>" + since + "</section>" +
       '<section class="story"><h2>Story</h2>' + story + "</section>" +
       facts(rows) +
@@ -471,8 +481,16 @@
       D.sets.length + " sets, " + FIGS.length + " figures" + (D.checked ? ", checked against LEGO.com on " + fmtDate(D.checked) : "") + ".<br>" +
       "Sources: LEGO.com product pages (names, pieces, prices, sizes, photos), the sets’ instruction booklets (stories) and " +
       '<a href="https://jaysbrickblog.com/" target="_blank" rel="noopener">Jay’s Brick Blog</a> reviews. ' +
-      "Images load from LEGO’s site and are © The LEGO Group.<br>" +
-      "Keys: Esc or Backspace goes back, ← → move between pages and pictures.</section>" +
+      "Images load from LEGO’s site and are © The LEGO Group.</section>" +
+      '<div class="keys"><h2 class="h">Keyboard shortcuts</h2><section class="card keylist">' + KEYS.map(function (k) {
+        return "<div><kbd>" + esc(k[0]) + "</kbd><span>" + esc(k[1]) + "</span></div>";
+      }).join("") + "</section></div>" +
+      (DONATE_QR || KOFI_URL ? '<h2 class="h">Buy me a coffee</h2><section class="card donate">' +
+        (DONATE_QR ? '<img src="' + DONATE_QR + '" alt="MoMo / VietQR code">' +
+          '<p class="note">Enjoying Plantdex? Scan with MoMo or any Vietnamese banking app (VietQR / Napas 247) to chip in.</p>' : "") +
+        (KOFI_URL ? '<a class="kofi" href="' + esc(KOFI_URL) + '" target="_blank" rel="noopener">Support on Ko-fi ↗</a>' +
+          '<p class="note">Outside Vietnam? Ko-fi takes cards and PayPal.</p>' : "") +
+        "</section>" : "") +
       footer() + "</main>";
   }
 
@@ -628,8 +646,23 @@
     if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
       var a = app.querySelector('[data-pager="' + (e.key === "ArrowLeft" ? "prev" : "next") + '"]');
       if (a) { e.preventDefault(); location.hash = a.getAttribute("href"); }
+      return;
     }
+    if (shortcut(e.key, r)) e.preventDefault();
   });
+  // single-key shortcuts (KEYS): H home, M settings, T theme, 1-4 home filters, O / W on a figure page
+  function shortcut(key, r) {
+    if (!key || key.length !== 1) return false;
+    var k = key.toLowerCase(), p = r.split("/"), n = +k, btn;
+    if (k === "h") { if (r) location.hash = "#/"; return true; }
+    if (k === "m") { if (p[0] === "settings") goBack("#/"); else location.hash = "#/settings"; return true; }
+    if (k === "t") { prefs.theme = isDark() ? "light" : "dark"; save(); rerenderKeepScroll(); return true; }
+    if ((k === "o" || k === "w") && p[0] === "figure" && (btn = app.querySelector('.toggle[data-act="' + (k === "o" ? "own" : "wish") + '"]'))) {
+      btn.click(); return true;
+    }
+    if (n >= 1 && n <= FILTERS.length && !r) { prefs.filter = FILTERS[n - 1][0]; save(); rerenderKeepScroll(); return true; }
+    return false;
+  }
 
   var touchX = null;
   document.addEventListener("touchstart", function (e) {

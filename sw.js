@@ -1,20 +1,21 @@
 /*
 @title        Plantdex - service worker
-@version      0.1.1
+@version      0.1.2
 @author       La Gia Huy
 @since        2026-11-16
-@updated      2026-11-16
+@updated      2026-11-17
 @engine       JavaScript (Service Worker)
 @target       Plantdex web app served over https
 @about        Offline support for the app shell. Network first, cache fallback, so edits
               to data.js show up on the next online visit. LEGO images are cross-origin
               and are left to the browser's normal cache.
-@changelog    0.1.1  Revalidate with the server on every fetch (cache: "no-cache"), so GitHub
+@changelog    0.1.2  Cache donate.jpg (Settings QR code).
+              0.1.1  Revalidate with the server on every fetch (cache: "no-cache"), so GitHub
                      Pages' 10-minute max-age doesn't hide a new version.
               0.1.0  First version.
 */
-var SHELL = "plantdex-shell-v2";
-var FILES = ["./", "index.html", "app.js", "app.css", "data.js", "manifest.webmanifest",
+var SHELL = "plantdex-shell-v3";
+var FILES = ["./", "index.html", "app.js", "app.css", "data.js", "manifest.webmanifest", "donate.jpg",
   "icons/icon.svg", "icons/icon-180.png", "icons/icon-512.png"];
 
 self.addEventListener("install", function (e) {

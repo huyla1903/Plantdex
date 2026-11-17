@@ -7,6 +7,8 @@ Dex of the LEGO Botanicals planter-buddy sets (two figures per set). Web app onl
 - `data.js` is the only data file (`window.PLANTDEX`), edited by hand. Its header documents every field. A `<script>` file instead of JSON so `index.html` works from `file://`.
 - `app.js` + `app.css`: the whole UI, ES5-style, no framework. Hash routes `#/`, `#/set/<sku>`, `#/figure/<id>`.
 - `sw.js`: network-first shell cache, registered only on https. Bump `SHELL` when the file list changes.
+- Deploy: `.github/workflows/pages.yml` runs `node tools/check.mjs`, then publishes the repo root to GitHub Pages on every push to `main` (Pages source = GitHub Actions). A new top-level file the site needs must be added to the workflow's `cp` line too. Run the check before pushing; do features on a branch and merge after checking in a browser.
+- Shared ideas with `../Scaledex` (keyboard shortcuts, the donation QR `donate.jpg` + Ko-fi link in Settings) are ported by hand; there's no shared code.
 
 ## Data notes
 
