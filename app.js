@@ -1,9 +1,9 @@
 /*
 @title        Plantdex - app
-@version      0.3.0
+@version      0.3.1
 @author       La Gia Huy
 @since        2026-11-16
-@updated      2026-11-16
+@updated      2026-11-17
 @engine       JavaScript (ES5, browser), no framework
 @target       Modern browsers incl. iOS Safari; data from data.js (window.PLANTDEX)
 @about        Dex of the LEGO Botanicals planter buddies. Hash routes:
@@ -18,7 +18,9 @@
               Images are hotlinked from LEGO's CDN; a figure without an image, or whose
               image fails to load, gets a drawn pot in its pot colour.
               Keys: Esc / Backspace = back, arrow keys = previous / next page or image.
-@changelog    0.3.0  Scaledex-style UI: theme switch, stats card, progress bars, filter chips,
+@changelog    0.3.1  Sets announced without figures (figures: []) show "not revealed yet";
+                     LEGO.com and instructions links are optional.
+              0.3.0  Scaledex-style UI: theme switch, stats card, progress bars, filter chips,
                      figure tabs, big facts, size chart, settings page, export/import,
                      scroll kept on back, keyboard navigation, image fallback. Set tagline,
                      ages and figure sizes from LEGO.com.
@@ -214,8 +216,8 @@
   }
   function links(s) {
     return '<div class="links">' +
-      '<a href="' + esc(s.lego) + '" target="_blank" rel="noopener">LEGO.com ↗</a>' +
-      '<a href="' + esc(s.instructions) + '" target="_blank" rel="noopener">Building instructions ↗</a>' +
+      (s.lego ? '<a href="' + esc(s.lego) + '" target="_blank" rel="noopener">LEGO.com ↗</a>' : "") +
+      (s.instructions ? '<a href="' + esc(s.instructions) + '" target="_blank" rel="noopener">Building instructions ↗</a>' : "") +
       (s.review ? '<a href="' + esc(s.review) + '" target="_blank" rel="noopener">Review ↗</a>' : "") + "</div>";
   }
   function neighbours(list, x, href, label) {
@@ -298,6 +300,8 @@
 
   // ---------- views ----------
   var current = { list: [] }; // images of the page on screen, for the lightbox
+  // shown instead of the figure grid for an announced set whose figures aren't known yet
+  var NO_FIGS = '<p class="no-figs">The two figures haven’t been revealed yet.</p>';
 
   function matches(f) {
     var k = prefs.filter;
@@ -306,7 +310,7 @@
 
   function viewHome() {
     var own = ownedIn(FIGS), wish = FIGS.filter(isWish).length;
-    var done = D.sets.filter(function (s) { return ownedIn(s.figures) === s.figures.length; }).length;
+    var done = D.sets.filter(function (s) { return s.figures.length && ownedIn(s.figures) === s.figures.length; }).length;
     var h = header() + '<main class="wrap">' +
       '<section class="statcard"><div class="stat-head"><h1>LEGO Botanicals planter buddies</h1>' +
       '<span class="pill">' + own + " / " + FIGS.length + "</span></div>" + bar(own, FIGS.length) +
@@ -327,18 +331,18 @@
 
     var shown = 0;
     D.sets.forEach(function (s) {
-      var figs = s.figures.filter(matches);
-      if (!figs.length) return;
+      var figs = s.figures.filter(matches), unrevealed = !s.figures.length;
+      if (!figs.length && !(unrevealed && prefs.filter === "all")) return;
       shown++;
-      var o = ownedIn(s.figures), complete = o === s.figures.length;
+      var o = ownedIn(s.figures), complete = !unrevealed && o === s.figures.length;
       h += '<section class="set-row' + (complete ? " complete" : "") + '" style="--c:' + s.color + '">' +
         '<a class="set-head" href="#/set/' + s.sku + '"><span class="sku">' + s.sku + "</span>" +
         "<h2>" + esc(s.name) + "</h2>" + setBadge(s) +
         '<span class="sub">' + monthYear(s.released) + " · " + s.pieces + " pieces · " + esc(s.prices[0]) + "</span>" +
         (s.tagline ? '<span class="tag">' + esc(s.tagline) + "</span>" : "") +
-        '<span class="set-prog">' + bar(o, s.figures.length) + "<b>" + o + " / " + s.figures.length + "</b></span>" +
+        (unrevealed ? "" : '<span class="set-prog">' + bar(o, s.figures.length) + "<b>" + o + " / " + s.figures.length + "</b></span>") +
         '<span class="go" aria-hidden="true">›</span></a>' +
-        '<div class="fig-grid">' + figs.map(figCard).join("") + "</div></section>";
+        (unrevealed ? NO_FIGS : '<div class="fig-grid">' + figs.map(figCard).join("") + "</div>") + "</section>";
     });
     if (!shown) {
       h += '<div class="empty-state">' + (prefs.filter === "wish" ? "Nothing on your wishlist yet. Tap ♡ Wishlist on a figure page." :
@@ -361,7 +365,7 @@
       ["Name", esc(s.name) + (s.altName ? ' <span class="muted">(UK: ' + esc(s.altName) + ")</span>" : "")],
       ["Released", fmtDate(s.released) + " " + setBadge(s)],
       ["Price at launch", s.prices.map(esc).join(" · ")],
-      ["Figures", s.figures.map(function (f) { return '<a href="#/figure/' + f.id + '">' + esc(figName(f)) + "</a>"; }).join(" & ")]
+      ["Figures", s.figures.length ? s.figures.map(function (f) { return '<a href="#/figure/' + f.id + '">' + esc(figName(f)) + "</a>"; }).join(" & ") : "Not revealed yet"]
     ];
     return header("#/") + '<main class="wrap" style="--c:' + s.color + '">' +
       '<div class="title"><span class="sku">LEGO Botanicals ' + s.sku + "</span><h1>" + esc(s.name) + "</h1>" +
@@ -371,8 +375,10 @@
         [s.pieces, "Pieces"], [esc(s.prices[0]), "Price"], s.ages ? [esc(s.ages), "Ages"] : null, [monthYear(s.released), "Released"]
       ]) + "</section>" +
       (s.about ? '<p class="about">' + esc(s.about) + "</p>" : "") +
-      '<h2 class="h">Figures <span class="h-end">' + o + " / " + s.figures.length + " owned</span></h2>" +
-      '<div class="fig-grid">' + s.figures.map(figCard).join("") + "</div>" +
+      (s.figures.length ?
+        '<h2 class="h">Figures <span class="h-end">' + o + " / " + s.figures.length + " owned</span></h2>" +
+        '<div class="fig-grid">' + s.figures.map(figCard).join("") + "</div>" :
+        '<h2 class="h">Figures</h2>' + NO_FIGS) +
       facts(rows) + links(s) +
       neighbours(D.sets, s, function (x) { return "#/set/" + x.sku; }, function (x) { return x.name; }) +
       footer() + "</main>";

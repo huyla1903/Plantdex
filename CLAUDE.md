@@ -17,4 +17,4 @@ Dex of the LEGO Botanicals planter-buddy sets (two figures per set). Web app onl
 - Figure tiles zoom into a group shot via `card: { src, zoom, x, y }`; check them in a browser after changing an image.
 - 10349 figures have no official names (their booklets title them only "Dracaena"/"Pilea"): `name: null`, `nickname` "Yellow"/"Blue" (from the review). Keep `id`s stable when names change.
 - Jay's Brick Blog typos: 10349 launched 1 Jun 2025 (its table says 2026); 11506 launched 1 May 2026 (its intro says 2025).
-- Two more sets are due in 2027 (`comingNote`).
+- 11518 (Jan 2027) is in `data.js` as a pre-release entry from retailer leaks: `figures: []`, no `lego`/`instructions` links, no gallery. Replace it with LEGO.com data once the product page is live (the name may become "Plants in Love"). One more 2027 set is still unannounced (`comingNote`).

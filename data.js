@@ -1,9 +1,9 @@
 /*
 @title        Plantdex - data
-@version      0.3.0
+@version      0.3.1
 @author       La Gia Huy
 @since        2026-11-16
-@updated      2026-11-16
+@updated      2026-11-17
 @engine       JavaScript (ES5, browser)
 @target       Plantdex web app (index.html)
 @about        Every LEGO Botanicals planter-buddy set and its two figures. Edit this file by
@@ -15,7 +15,8 @@
                 released                ISO date (YYYY-MM-DD); a future date shows "Upcoming"
                 pieces, ages, prices    piece count, LEGO age mark, retail prices at launch
                 color                   accent colour of the set card
-                lego, instructions      LEGO product page, building-instructions page
+                lego, instructions      LEGO product page, building-instructions page (leave out
+                                        until they exist)
                 review                  Jay's Brick Blog review
                 gallery                 LEGO product images, hotlinked (never downloaded), in
                                         the product page's order. Either a URL string or
@@ -24,6 +25,7 @@
                                         Copy the URL from the product page gallery
                                         (https://www.lego.com/cdn/cs/set/assets/...), without
                                         the ?query: the app adds the size it needs.
+                figures                 the two figures below; [] while they're unrevealed
               Figure fields
                 id                      stable id used in links (#/figure/<id>); never change
                 name                    official name, or null if LEGO hasn't named it
@@ -48,7 +50,7 @@ window.PLANTDEX = {
   // Date the data was last checked against LEGO.com (shown in Settings).
   checked: "2026-11-16",
   // Shown as a card after the last set. Set to "" to hide it.
-  comingNote: "Two more sets are due in 2027.",
+  comingNote: "One more set is due in 2027.",
   sets: [
     {
       sku: "10349",
@@ -227,6 +229,19 @@ window.PLANTDEX = {
           story: "This cool plant loves to spread both roots and stems – your fresh and fearless friend for flavor-filled adventures!"
         }
       ]
+    },
+    {
+      // Pre-release: facts from retailer leaks (BrickEconomy, Stonewars), not LEGO.com yet.
+      // Check name, date, prices and links against the product page once it's live.
+      sku: "11518",
+      name: "Lovely Plants",
+      released: "2027-01-01",
+      pieces: 274,
+      prices: ["US$22.99", "€19.99", "£17.99"],
+      color: "#e8798a",
+      about: "Announced for January 2027. Early leaks call it Lovely Plants; later retail data points to Plants in Love as the final name. The figures haven't been revealed yet.",
+      gallery: [],
+      figures: []
     }
   ]
 };

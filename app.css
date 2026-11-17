@@ -182,6 +182,7 @@ code { font-size: .9em; background: var(--leaf-soft); padding: 1px 5px; border-r
 .unofficial { font-size: 11px; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 0 6px; vertical-align: middle; white-space: nowrap; }
 html.dim .fig-card:not(.owned) .fig-art > *:not(.dot),
 html.dim .fig-tab:not(.owned) .tab-art > * { filter: grayscale(1) opacity(.5); }
+.no-figs { margin: 0; padding: 12px 16px 16px; color: var(--muted); }
 .coming { margin-top: 16px; padding: 16px; border: 2px dashed var(--line); border-radius: var(--radius); color: var(--muted); text-align: center; }
 .empty-state { margin-top: 16px; padding: 36px 16px; text-align: center; font-weight: 700; color: var(--muted); background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
 
